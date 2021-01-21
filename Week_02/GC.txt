@@ -1,0 +1,54 @@
+java -Xmx8g -Xms8g -XX:+PrintGCDetails -XX:+PrintGCDateStamps -XX:+UseParallelGC GCLogAnalysis
+6000
+无GC
+
+java -Xmx4g -Xms4g -XX:+PrintGCDetails -XX:+PrintGCDateStamps -XX:+UseParallelGC GCLogAnalysis
+数据波动较大， 7000 ～ 10000
+YoungGC 2次
+
+java -Xmx2g -Xms2g -XX:+PrintGCDetails -XX:+PrintGCDateStamps -XX:+UseParallelGC GCLogAnalysis
+10000
+YoungGC 4、5次
+
+java -Xmx1g -Xms1g -XX:+PrintGCDetails -XX:+PrintGCDateStamps -XX:+UseParallelGC GCLogAnalysis
+9000
+13次YoungGC， 1次FullGC
+
+java -Xmx512M -Xms512M -XX:+PrintGCDetails -XX:+PrintGCDateStamps -XX:+UseParallelGC GCLogAnalysis
+7000
+23次YoungGC，5次FullGC
+
+java -Xmx256M -Xms256M -XX:+PrintGCDetails -XX:+PrintGCDateStamps -XX:+UseParallelGC GCLogAnalysis
+偶发性OOM 3000
+10次YoungGC之后，全部FullGC
+
+----------------------
+java -Xmx8g -Xms8g -XX:+PrintGCDetails -XX:+PrintGCDateStamps -XX:+UseG1GC GCLogAnalysis
+9700
+YoungGC 7次
+
+java -Xmx4g -Xms4g -XX:+PrintGCDetails -XX:+PrintGCDateStamps -XX:+UseG1GC GCLogAnalysis
+9500
+YoungGC 12次
+
+java -Xmx2g -Xms2g -XX:+PrintGCDetails -XX:+PrintGCDateStamps -XX:+UseG1GC GCLogAnalysis
+数据波动较大， 7000 ～ 10000
+YoungGC 12次
+
+java -Xmx1g -Xms1g -XX:+PrintGCDetails -XX:+PrintGCDateStamps -XX:+UseG1GC GCLogAnalysis
+8000
+10次YoungGC， 5次mixedGC
+
+java -Xmx512M -Xms512M -XX:+PrintGCDetails -XX:+PrintGCDateStamps -XX:+UseG1GC GCLogAnalysis
+7600
+30次YoungGC， 17次mixedGC
+
+java -Xmx256M -Xms256M -XX:+PrintGCDetails -XX:+PrintGCDateStamps -XX:+UseG1GC GCLogAnalysis
+OOM
+
+
+===============
+JVM堆内存影响GC分配情况，堆内存太小会导致YoungGC和FullGC过多，导致OOM
+堆内存太大也会让执行效率变慢。
+堆内存从大到小变化时，YoungGC和FullGC的频率都会变大，STW也会伴随发生，系统的吞吐量也在不断变化
+不同的GC分配策略下，YongGC和FullGC的数量都不同。
