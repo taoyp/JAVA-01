@@ -27,6 +27,11 @@ public class DataSourceAspect
     System.out.println("=============dsPointCut");
   }
 
+  /**
+   * 使用注解 readOnly判断
+   * 如果有，则在两个slave库读，使用负载均衡
+   * 没有，则读取master
+   * */
   @Around("dsPointCut()")
   public Object around(ProceedingJoinPoint point) throws Throwable
   {

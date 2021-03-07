@@ -1,13 +1,14 @@
 package com.lxtyp.basic.config;
 
+import java.util.ArrayList;
+import java.util.Collection;
+import java.util.List;
+
 /**
  * @ClassName DynamicDataSourceContextHolder
  * @Date 2021/3/7 06:36
  * @Description TODO
  * @Status ISFINISH
- */
-/**
- *	将上面的获取数据源独立出来了
  */
 public class DynamicDataSourceContextHolder
 {
@@ -41,6 +42,29 @@ public class DynamicDataSourceContextHolder
   public static void clearDataSourceType()
   {
     CONTEXT_HOLDER.remove();
+  }
+
+  /**
+   * 数据源的 key集合，用于切换时判断数据源是否存在
+   */
+  public static List<Object> dataSourceKeys = new ArrayList<>();
+
+  /**
+   * 判断是否包含数据源
+   * @param key 数据源key
+   * @return boolean
+   */
+  public static boolean containDataSourceKey(String key) {
+    return dataSourceKeys.contains(key);
+  }
+
+  /**
+   * 添加数据源keys
+   * @param keys
+   * @return boolean
+   */
+  public static boolean addDataSourceKeys(Collection<? extends Object> keys) {
+    return dataSourceKeys.addAll(keys);
   }
 }
 

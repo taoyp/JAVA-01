@@ -1,0 +1,63 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.lxtyp.basic.generator.dao.OrderMapper">
+  <resultMap id="BaseResultMap" type="com.lxtyp.basic.generator.entity.Order">
+    <id column="ORDER_ID" jdbcType="VARCHAR" property="ORDER_ID" />
+    <result column="USER_ID" jdbcType="VARCHAR" property="USER_ID" />
+    <result column="STATUS" jdbcType="CHAR" property="STATUS" />
+    <result column="ORDER_PRICE" jdbcType="DECIMAL" property="ORDER_PRICE" />
+    <result column="PAY_TYPE" jdbcType="CHAR" property="PAY_TYPE" />
+    <result column="ORDER_ADDRESS" jdbcType="VARCHAR" property="ORDER_ADDRESS" />
+    <result column="ORDER_DISCOUNT" jdbcType="DECIMAL" property="ORDER_DISCOUNT" />
+    <result column="ORDER_PAY" jdbcType="DECIMAL" property="ORDER_PAY" />
+    <result column="CREATE_TIME" jdbcType="TIMESTAMP" property="CREATE_TIME" />
+    <result column="UPDATE_TIME" jdbcType="TIMESTAMP" property="UPDATE_TIME" />
+  </resultMap>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.String">
+    delete from TF_B_ORDER
+    where ORDER_ID = #{ORDER_ID,jdbcType=VARCHAR}
+  </delete>
+  <insert id="insert">
+    insert into TF_B_ORDER (ORDER_ID, USER_ID, STATUS,
+    ORDER_PRICE, PAY_TYPE, ORDER_ADDRESS,
+    ORDER_DISCOUNT, ORDER_PAY, CREATE_TIME,
+    UPDATE_TIME)
+    values
+    <foreach collection="list" item="order" separator=",">
+    (#{order.ORDER_ID,jdbcType=VARCHAR}, #{order.USER_ID,jdbcType=VARCHAR}, #{order.STATUS,jdbcType=CHAR},
+      #{order.ORDER_PRICE,jdbcType=DECIMAL}, #{order.PAY_TYPE,jdbcType=CHAR}, #{order.ORDER_ADDRESS,jdbcType=VARCHAR},
+      #{order.ORDER_DISCOUNT,jdbcType=DECIMAL}, #{order.ORDER_PAY,jdbcType=DECIMAL}, #{order.CREATE_TIME,jdbcType=TIMESTAMP},
+      #{order.UPDATE_TIME,jdbcType=TIMESTAMP})
+    </foreach>
+  </insert>
+  <update id="updateByPrimaryKey" parameterType="com.lxtyp.basic.generator.entity.Order">
+    update TF_B_ORDER
+    set USER_ID = #{USER_ID,jdbcType=VARCHAR},
+      "STATUS" = #{STATUS,jdbcType=CHAR},
+      ORDER_PRICE = #{ORDER_PRICE,jdbcType=DECIMAL},
+      PAY_TYPE = #{PAY_TYPE,jdbcType=CHAR},
+      ORDER_ADDRESS = #{ORDER_ADDRESS,jdbcType=VARCHAR},
+      ORDER_DISCOUNT = #{ORDER_DISCOUNT,jdbcType=DECIMAL},
+      ORDER_PAY = #{ORDER_PAY,jdbcType=DECIMAL},
+      CREATE_TIME = #{CREATE_TIME,jdbcType=TIMESTAMP},
+      UPDATE_TIME = #{UPDATE_TIME,jdbcType=TIMESTAMP}
+    where ORDER_ID = #{ORDER_ID,jdbcType=VARCHAR}
+  </update>
+  <select id="selectByPrimaryKey" parameterType="java.lang.String" resultMap="BaseResultMap">
+    select ORDER_ID, USER_ID, "STATUS", ORDER_PRICE, PAY_TYPE, ORDER_ADDRESS, ORDER_DISCOUNT, 
+    ORDER_PAY, CREATE_TIME, UPDATE_TIME
+    from TF_B_ORDER
+    where ORDER_ID = #{ORDER_ID,jdbcType=VARCHAR}
+  </select>
+  <select id="selectByInfo" resultMap="BaseResultMap">
+    select ORDER_ID, USER_ID, STATUS, ORDER_PRICE, PAY_TYPE, ORDER_ADDRESS, ORDER_DISCOUNT,
+           ORDER_PAY, CREATE_TIME, UPDATE_TIME
+    from TF_B_ORDER
+    WHERE ORDER_ID = '100000'
+  </select>
+  <select id="selectAll" resultMap="BaseResultMap">
+    select ORDER_ID, USER_ID, "STATUS", ORDER_PRICE, PAY_TYPE, ORDER_ADDRESS, ORDER_DISCOUNT, 
+    ORDER_PAY, CREATE_TIME, UPDATE_TIME
+    from TF_B_ORDER
+  </select>
+</mapper>
